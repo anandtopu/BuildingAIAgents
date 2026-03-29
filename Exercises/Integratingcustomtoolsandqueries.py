@@ -1,26 +1,32 @@
-'''
-Integrating custom tools and queries
-You now have a custom math tool for calculating roof length. You can integrate it with an agentic workflow by creating a variable called query that accepts the user's natural language question as a string.
-Your tool is already loaded as hypotenuse_length, as well as your model.
+# pylint: disable=invalid-name
+"""Integrate a custom math tool and run a ReAct query."""
 
-Create a list variable called tools and include your tool, hypotenuse_length, inside the list.
-Create a variable called query that accepts questions as natural language strings.
-Use the create_react_agent() function to create the agent, passing in the model and tools.
-Invoke the agent app, passing in your query labeled "human", before storing and printing the agent's response.
+import math
 
-'''
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
 
 
+@tool
+def hypotenuse_length(lengths: str) -> float:
+    """Calculate hypotenuse length from comma-separated side values."""
+    sides = lengths.split(",")
+    a = float(sides[0].strip())
+    b = float(sides[1].strip())
+    return math.sqrt(a**2 + b**2)
 
-# Create a list variable and pass in your tool
-tool = [____]
 
-# Create a query using natural language
-query = "What is the hypotenuse length of a triangle with side lengths of 10 and 12?"
+def main() -> None:
+    """Create an agent, invoke it with a natural-language math query, and print output."""
+    tools = [hypotenuse_length]
+    query = "What is the hypotenuse length of a triangle with side lengths of 10 and 12?"
+    model = ChatOpenAI(model="gpt-4o-mini")
+    app = create_react_agent(model, tools)
 
-# Pass in the hypotenuse length tool and create the agent
-app = create_react_agent(____, ____)
+    response = app.invoke({"messages": [("human", query)]})
+    print(response["messages"][-1].content)
 
-# Invoke the agent and print the response
-response = ____.____({"messages": [("____", ____)]})
-print(____['messages'][-1].content)
+
+if __name__ == "__main__":
+    main()
