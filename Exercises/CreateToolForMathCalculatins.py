@@ -3,7 +3,7 @@
 
 import math
 
-from langchain_core.tools import tool
+from langchain_core.tools import tool  # pylint: disable=import-error
 
 
 # Define this math function as a tool
