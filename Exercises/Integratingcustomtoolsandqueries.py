@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,duplicate-code
 """Integrate a custom math tool and run a ReAct query."""
 
 import math

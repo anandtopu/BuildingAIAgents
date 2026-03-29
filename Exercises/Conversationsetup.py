@@ -1,15 +1,12 @@
-
-
-'''Now that you have a custom tool to help you calculate the length of a roof, you can set your agent's outputs to respond to your entered
-query. By slightly modifying your print statements, you can directly compare your query and your agent's response to ensure accuracy.
-Your tools and query have already been set up and your model is ready to use.'''
+# pylint: disable=invalid-name
+"""Set up a basic agent conversation and print user input with agent output."""
 
 
 import math
 
 from langchain_core.tools import tool  # pylint: disable=import-error
 from langchain_openai import ChatOpenAI  # pylint: disable=import-error
-from langgraph.prebuilt import create_react_agent
+from langgraph.prebuilt import create_react_agent  # pylint: disable=import-error
 
 @tool
 def hypotenuse_length(lengths: str) -> float:
@@ -21,6 +18,7 @@ def hypotenuse_length(lengths: str) -> float:
 
 
 def main() -> None:
+    """Create a ReAct agent, send one query, and print the response."""
     tools = [hypotenuse_length]
     query = "What is the value of the hypotenuse for a triangle with sides 3 and 5?"
     model = ChatOpenAI(model="gpt-4o-mini")
@@ -40,3 +38,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
