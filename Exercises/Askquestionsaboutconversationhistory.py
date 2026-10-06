@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,duplicate-code
 """Ask a follow-up question by reusing an agent's conversation history."""
 
 import math
@@ -50,4 +50,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

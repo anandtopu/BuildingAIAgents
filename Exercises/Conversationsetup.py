@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,duplicate-code
 """Set up a basic agent conversation and print user input with agent output."""
 
 
@@ -38,4 +38,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
