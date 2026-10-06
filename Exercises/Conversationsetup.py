@@ -1,12 +1,12 @@
 # pylint: disable=invalid-name,duplicate-code
-"""Integrate a custom math tool and run a ReAct query."""
+"""Set up a basic agent conversation and print user input with agent output."""
+
 
 import math
 
 from langchain_core.tools import tool  # pylint: disable=import-error
 from langchain_openai import ChatOpenAI  # pylint: disable=import-error
 from langgraph.prebuilt import create_react_agent  # pylint: disable=import-error
-
 
 @tool
 def hypotenuse_length(lengths: str) -> float:
@@ -18,14 +18,22 @@ def hypotenuse_length(lengths: str) -> float:
 
 
 def main() -> None:
-    """Create an agent, invoke it with a natural-language math query, and print output."""
+    """Create a ReAct agent, send one query, and print the response."""
     tools = [hypotenuse_length]
-    query = "What is the hypotenuse length of a triangle with side lengths of 10 and 12?"
+    query = "What is the value of the hypotenuse for a triangle with sides 3 and 5?"
     model = ChatOpenAI(model="gpt-4o-mini")
+
+    # Create the ReAct agent
     app = create_react_agent(model, tools)
 
+    # Invoke the agent with a query and store the messages
     response = app.invoke({"messages": [("human", query)]})
-    print(response["messages"][-1].content)
+
+    # Define and print the input and output messages
+    print({
+        "user_input": query,
+        "agent_output": response["messages"][-1].content
+    })
 
 
 if __name__ == "__main__":
